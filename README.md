@@ -1,13 +1,14 @@
 # Restaurant Finder
 
-A simple web app to search for restaurants in any zip code using the OpenStreetMap API.
+A simple web app to search for restaurants in any ZIP code using the OpenStreetMap Overpass API.
 
 ![Example Screenshot](./example.png)
 
 ## Features
-- Search for restaurants by ZIP code.
+- Search for restaurants by ZIP code and radius.
 - View restaurant details such as name, website, phone number, and address.
-- Uses OpenStreetMap's Overpass API to fetch restaurant data.
+- Uses the OpenStreetMap Overpass API to fetch restaurant data.
+- Uses the Zippopotamus API to convert ZIP codes to latitude and longitude.
 
 ## How to Run
 1. Clone the repository:
@@ -31,3 +32,10 @@ A simple web app to search for restaurants in any zip code using the OpenStreetM
    ```
 
 5. Open your browser and visit `http://127.0.0.1:5000/` to use the application.
+
+## Technologies Used
+- Python
+- Flask
+- Tailwind CSS
+- OpenStreetMap Overpass API
+- Zippopotamus API
