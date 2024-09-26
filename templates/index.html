@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Finder</title>
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col justify-between">
+
+    <!-- Header -->
+    <header class="bg-blue-600 w-full text-white p-4 flex items-center justify-center">
+        <i class="fas fa-pizza-slice text-3xl mr-2"></i>
+        <h1 class="text-3xl font-bold">Restaurant Finder</h1>
+    </header>
+
+    <!-- Main -->
+    <main class="flex flex-col justify-center items-center flex-grow py-6">
+        <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-4xl mx-4">
+            
+            <h2 class="text-2xl font-bold text-center mb-6">Search Restaurants</h2>
+
+            <!-- Input form -->
+            <form method="POST" class="flex space-x-4 justify-center mb-8">
+                <input type="text" id="zip_code" name="zip_code" placeholder="ZIP Code" required
+                    class="p-2 w-1/3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                
+                <input type="text" id="radius" name="radius" placeholder="Radius (meters)" required
+                    class="p-2 w-1/3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                
+                <button type="submit"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Search
+                </button>
+            </form>
+
+            <!-- Display error message -->
+            {% if error_message %}
+                <p class="mt-4 text-red-600 text-center">{{ error_message }}</p>
+            {% endif %}
+
+            <!-- Display results -->
+            {% if results %}
+                <p class="text-base text-center mt-8">Results for ZIP Code: <b>{{ zip_code }}</b> (Radius: <b>{{ radius }}</b> meters)</p>
+                <div class="overflow-x-auto mt-4">
+                    <table class="w-full min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+                        <thead class="bg-gray-200">
+                            <tr>
+                                <th class="text-left p-4">Name</th>
+                                <th class="text-left p-4">Website</th>
+                                <th class="text-left p-4">Phone Number</th>
+                                <th class="text-left p-4">Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for restaurant in results %}
+                            <tr class="border-t">
+                                <td class="p-4">{{ restaurant['Name'] }}</td>
+                                <td class="p-4">
+                                    <a href="{{ restaurant['Website'] }}" target="_blank" class="text-blue-500 hover:underline">{{ restaurant['Website'] }}</a>
+                                </td>
+                                <td class="p-4">{{ restaurant['Phone Number'] }}</td>
+                                <td class="p-4">{{ restaurant['Address'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 w-full text-gray-300 p-4 flex justify-center items-center space-x-4">
+        <p class="text-sm">
+            <a href="https://github.com/awnold" target="_blank" class="underline text-blue-400 hover:text-blue-300">
+                <i class="fab fa-github text-xl">awnold</i>
+            </a>
+        </p>
+        <p class="text-sm">
+            Data gathered from <a href="https://www.openstreetmap.org/" target="_blank" class="underline text-blue-400 hover:text-blue-300">OpenStreetMap</a>
+        </p>
+    </footer>
+
+</body>
+</html>
