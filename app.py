@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, make_response
 import pandas as pd
 import requests
-from datetime import datetime
 from io import StringIO
 
 app = Flask(__name__)
@@ -55,6 +54,7 @@ def get_restaurants_by_lat_long(lat, lon, radius=1000):
 def index():
     error_message = None
     results = None
+    result_count = 0
     zip_code = '' 
     radius = ''
 
@@ -71,10 +71,11 @@ def index():
             if lat and lon:
                 # Get restaurant data
                 results = get_restaurants_by_lat_long(lat, lon, radius)
+                result_count = len(results)  # Count the number of results
             else:
                 error_message = "Invalid ZIP code. Please try again."
 
-    return render_template("index.html", results=results, zip_code=zip_code, radius=radius, error_message=error_message)
+    return render_template("index.html", results=results, result_count=result_count, zip_code=zip_code, radius=radius, error_message=error_message)
 
 # Route to download CSV file
 @app.route("/download_csv")

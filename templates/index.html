@@ -45,7 +45,7 @@
             <!-- Display results -->
             {% if results %}
                 <div class="flex flex-col md:flex-row md:justify-between items-center space-y-4 md:space-y-0">
-                    <p class="text-base text-center md:text-left">Results for ZIP Code: <b>{{ zip_code }}</b> (Radius: <b>{{ radius }}</b> meters)</p>
+                    <p class="text-base text-center md:text-left">Found {{ result_count }} results for ZIP Code: <b>{{ zip_code }}</b> (Radius: <b>{{ radius }}</b> meters)</p>
                     <a href="/download_csv?zip_code={{ zip_code }}&radius={{ radius }}" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
                         Download CSV
                     </a>
