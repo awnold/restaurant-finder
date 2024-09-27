@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, make_response
 import pandas as pd
 import requests
 from datetime import datetime
+from io import StringIO
 
 app = Flask(__name__)
 
@@ -39,7 +40,7 @@ def get_restaurants_by_lat_long(lat, lon, radius=1000):
         website = element.get('tags', {}).get('website', '')
         phone_number = element.get('tags', {}).get('phone', '')
         
-        # Filter out restaraunts with no address
+        # Filter out restaurants with no address
         if address.strip():
             restaurant_data.append({
                 'Name': name,
@@ -74,6 +75,27 @@ def index():
                 error_message = "Invalid ZIP code. Please try again."
 
     return render_template("index.html", results=results, zip_code=zip_code, radius=radius, error_message=error_message)
+
+# Route to download CSV file
+@app.route("/download_csv")
+def download_csv():
+    zip_code = request.args.get('zip_code', '')
+    radius = request.args.get('radius', '')
+    lat, lon = get_lat_lon_from_zip(zip_code)
+    results = get_restaurants_by_lat_long(lat, lon, radius)
+
+    # Create a CSV file from the results
+    df = pd.DataFrame(results)
+    csv_data = StringIO()
+    df.to_csv(csv_data, index=False)
+    csv_data.seek(0)
+
+    # Create the response object to send the CSV file
+    response = make_response(csv_data.getvalue())
+    response.headers["Content-Disposition"] = f"attachment; filename=restaurants_{zip_code}_{radius}.csv"
+    response.headers["Content-Type"] = "text/csv"
+
+    return response
 
 if __name__ == "__main__":
     app.run(debug=True)

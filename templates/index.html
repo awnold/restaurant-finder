@@ -25,10 +25,10 @@
 
             <!-- Input form -->
             <form method="POST" class="flex space-x-4 justify-center mb-8">
-                <input type="text" id="zip_code" name="zip_code" placeholder="ZIP Code" required
+                <input type="text" id="zip_code" name="zip_code" placeholder="ZIP Code" value="{{ zip_code }}" required
                     class="p-2 w-1/3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 
-                <input type="text" id="radius" name="radius" placeholder="Radius (meters)" required
+                <input type="text" id="radius" name="radius" placeholder="Radius (meters)" value="{{ radius }}" required
                     class="p-2 w-1/3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
                 
                 <button type="submit"
@@ -44,7 +44,13 @@
 
             <!-- Display results -->
             {% if results %}
-                <p class="text-base text-center mt-8">Results for ZIP Code: <b>{{ zip_code }}</b> (Radius: <b>{{ radius }}</b> meters)</p>
+                <div class="flex flex-col md:flex-row md:justify-between items-center space-y-4 md:space-y-0">
+                    <p class="text-base text-center md:text-left">Results for ZIP Code: <b>{{ zip_code }}</b> (Radius: <b>{{ radius }}</b> meters)</p>
+                    <a href="/download_csv?zip_code={{ zip_code }}&radius={{ radius }}" class="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        Download CSV
+                    </a>
+                </div>
+
                 <div class="overflow-x-auto mt-4">
                     <table class="w-full min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                         <thead class="bg-gray-200">
